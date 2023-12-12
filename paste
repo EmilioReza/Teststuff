@@ -1,4 +1,4 @@
-Sub CopyDataFromOtherSheet()
+Sub ProcessRows()
     ' Declare variables for worksheets
     Dim sourceSheet As Worksheet
     Dim destinationSheet As Worksheet
@@ -7,12 +7,32 @@ Sub CopyDataFromOtherSheet()
     Set sourceSheet = Worksheets("SourceSheetName") ' Replace with the name of your source sheet
     Set destinationSheet = Worksheets("DestinationSheetName") ' Replace with the name of your destination sheet
 
-    ' Copy data from a specific range in the source sheet to a specific range in the destination sheet
-    sourceSheet.Range("A1:B10").Copy destinationSheet.Range("C1")
+    ' Declare variables for loop
+    Dim i As Long
+    Dim sourceValue As Long
+    Dim numNewRows As Long
+    Dim jValue As Variant
 
-    ' Optional: Paste values only (if you don't want to copy formatting)
-    destinationSheet.Range("C1").PasteSpecial xlPasteValues
+    ' Loop through rows 2 to 21 in the source sheet
+    For i = 2 To 21
+        ' Get the value from column L in the source sheet
+        sourceValue = sourceSheet.Cells(i, "L").Value
 
-    ' Optional: Clear the clipboard
-    Application.CutCopyMode = False
+        ' Calculate the number of new rows to add (rounded up)
+        numNewRows = Application.WorksheetFunction.Ceiling_Math(sourceValue / 12)
+
+        ' Get the value from column J in the source sheet
+        jValue = sourceSheet.Cells(i, "J").Value
+
+        ' Add new rows to the destination sheet
+        Dim newRow As Long
+        For newRow = 1 To numNewRows
+            ' Find the next available row in the destination sheet
+            Dim destRow As Long
+            destRow = destinationSheet.Cells(destinationSheet.Rows.Count, "A").End(xlUp).Row + 1
+
+            ' Write the value from column J to the destination sheet
+            destinationSheet.Cells(destRow, "A").Value = jValue
+        Next newRow
+    Next i
 End Sub
