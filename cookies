@@ -1,0 +1,40 @@
+Sub ProcessRows()
+    ' Declare variables for worksheets
+    Dim sourceSheet As Worksheet
+    Dim destinationSheet As Worksheet
+
+    ' Set references to the source and destination sheets
+    Set sourceSheet = Worksheets("SourceSheetName") ' Replace with the name of your source sheet
+    Set destinationSheet = Worksheets("DestinationSheetName") ' Replace with the name of your destination sheet
+
+    ' Declare variables for loop
+    Dim i As Long
+    Dim cookiesPerHour As Long
+    Dim nameValue As Variant
+    Dim cookiesNeeded As Long
+
+    ' Loop through rows 2 to 21 in the source sheet
+    For i = 2 To 21
+        ' Get the value from column L in the source sheet (cookies per hour)
+        cookiesPerHour = sourceSheet.Cells(i, "L").Value
+
+        ' Get the value from column J in the source sheet (person's name)
+        nameValue = sourceSheet.Cells(i, "J").Value
+
+        ' Calculate the number of cookies needed for this person
+        cookiesNeeded = sourceSheet.Cells(i, "M").Value ' Assuming the number of cookies needed is in column M of the source sheet
+
+        ' Add new rows to the destination sheet
+        Dim newRow As Long
+        For newRow = 1 To Application.WorksheetFunction.Ceiling_Math(cookiesNeeded / cookiesPerHour)
+            ' Find the next available row in the destination sheet
+            Dim destRow As Long
+            destRow = destinationSheet.Cells(destinationSheet.Rows.Count, "A").End(xlUp).Row + 1
+
+            ' Write the person's name and the number of cookies (based on cookies per hour) to the destination sheet
+            destinationSheet.Cells(destRow, "A").Value = nameValue
+            destinationSheet.Cells(destRow, "B").Value = Application.Min(cookiesPerHour, cookiesNeeded) ' Use Min to avoid exceeding the required number
+            cookiesNeeded = cookiesNeeded - cookiesPerHour ' Update the remaining cookies needed
+        Next newRow
+    Next i
+End Sub
