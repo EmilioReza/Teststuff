@@ -1,0 +1,18 @@
+Sub CopyDataFromOtherSheet()
+    ' Declare variables for worksheets
+    Dim sourceSheet As Worksheet
+    Dim destinationSheet As Worksheet
+
+    ' Set references to the source and destination sheets
+    Set sourceSheet = Worksheets("SourceSheetName") ' Replace with the name of your source sheet
+    Set destinationSheet = Worksheets("DestinationSheetName") ' Replace with the name of your destination sheet
+
+    ' Copy data from a specific range in the source sheet to a specific range in the destination sheet
+    sourceSheet.Range("A1:B10").Copy destinationSheet.Range("C1")
+
+    ' Optional: Paste values only (if you don't want to copy formatting)
+    destinationSheet.Range("C1").PasteSpecial xlPasteValues
+
+    ' Optional: Clear the clipboard
+    Application.CutCopyMode = False
+End Sub
