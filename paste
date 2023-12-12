@@ -4,8 +4,8 @@ Sub ProcessRows()
     Dim destinationSheet As Worksheet
 
     ' Set references to the source and destination sheets
-    Set sourceSheet = Worksheets("SourceSheetName") ' Replace with the name of your source sheet
-    Set destinationSheet = Worksheets("DestinationSheetName") ' Replace with the name of your destination sheet
+    Set sourceSheet = Worksheets("data") ' Replace with the name of your source sheet
+    Set destinationSheet = Worksheets("Testing") ' Replace with the name of your destination sheet
 
     ' Declare variables for loop
     Dim i As Long
@@ -29,10 +29,10 @@ Sub ProcessRows()
         For newRow = 1 To numNewRows
             ' Find the next available row in the destination sheet
             Dim destRow As Long
-            destRow = destinationSheet.Cells(destinationSheet.Rows.Count, "A").End(xlUp).Row + 1
+            destRow = destinationSheet.Cells(destinationSheet.Rows.Count, "B").End(xlUp).Row + 1
 
-            ' Write the value from column J to the destination sheet
-            destinationSheet.Cells(destRow, "A").Value = jValue
+            ' Write the value from column J to the destination sheet (in column B)
+            destinationSheet.Cells(destRow, "B").Value = jValue
         Next newRow
     Next i
 End Sub
